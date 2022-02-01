@@ -82,6 +82,7 @@ export default function Question({
           text-align: center;
           max-width: 50ch;
           color: var(--primary-color);
+          margin: 1rem 0;
           font-size: 1.5rem;
           font-weight: 200;
         }

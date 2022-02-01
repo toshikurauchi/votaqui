@@ -41,6 +41,7 @@ export default function Option({
         }
         button:disabled {
           cursor: default;
+          filter: opacity(0.5);
         }
         button:hover:enabled {
           box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.2);
