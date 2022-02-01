@@ -9,7 +9,12 @@ export interface IQuestion {
   question?: string;
 }
 
-export interface IPoll {
+export interface IPollMeta {
   currentQuestion: number;
+  acceptingVotes: boolean;
+}
+
+export interface IPoll {
+  meta: IPollMeta;
   questions: IQuestion[];
 }

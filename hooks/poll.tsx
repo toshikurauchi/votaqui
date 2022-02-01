@@ -1,16 +1,14 @@
-import { off, onValue, ref as databaseRef } from "firebase/database";
+import { off, onValue, ref as databaseRef, set } from "firebase/database";
 import { useEffect, useState } from "react";
-import { IQuestion } from "../models/poll";
+import { IPollMeta, IQuestion } from "../models/poll";
 import { database } from "../services/firebase-client";
 
 const useSnapshot = <T extends unknown>(path: string, initialValue: T) => {
   const [value, setValue] = useState<T>(initialValue);
   useEffect(() => {
     const query = databaseRef(database, path);
-    console.log("HERE", query);
     onValue(query, (snapshot) => {
       const data = snapshot.val();
-      console.log("HERE INSIDE", data);
       setValue(data);
     });
 
@@ -22,11 +20,10 @@ const useSnapshot = <T extends unknown>(path: string, initialValue: T) => {
   return value;
 };
 
-const useCurrentQuestion = (pollSlug: string) => {
-  const questionIdx = useSnapshot<number>(
-    `/polls/${pollSlug}/currentQuestion`,
-    -1
-  );
+const useCurrentQuestion = (
+  pollSlug: string
+): [IQuestion | null, IPollMeta | null] => {
+  const meta = useSnapshot<IPollMeta | null>(`/polls/${pollSlug}/meta`, null);
 
   const questions = useSnapshot<IQuestion[]>(
     `/polls/${pollSlug}/questions`,
@@ -37,14 +34,19 @@ const useCurrentQuestion = (pollSlug: string) => {
     null
   );
   useEffect(() => {
-    if (questionIdx < questions.length) {
-      setCurrentQuestion(questions[questionIdx]);
+    if ((meta?.currentQuestion ?? -1) < questions.length) {
+      setCurrentQuestion(questions[meta?.currentQuestion ?? 0]);
     } else {
       setCurrentQuestion(null);
     }
-  }, [questions, questionIdx]);
+  }, [questions, meta?.currentQuestion]);
 
-  return currentQuestion;
+  return [currentQuestion, meta];
 };
 
-export { useCurrentQuestion };
+const submitVote = (pollSlug: string, username: string, optionIdx: number) => {
+  const ref = databaseRef(database, `/votes/${pollSlug}/${username}`);
+  return set(ref, optionIdx);
+};
+
+export { useCurrentQuestion, submitVote };

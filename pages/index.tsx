@@ -5,7 +5,8 @@ import Question from "../components/Question";
 import { useCurrentQuestion } from "../hooks/poll";
 
 const Home: NextPage = () => {
-  const currentQuestion = useCurrentQuestion("dcu");
+  const pollSlug = "dcu";
+  const [currentQuestion, pollMeta] = useCurrentQuestion(pollSlug);
 
   return (
     <div>
@@ -16,7 +17,11 @@ const Home: NextPage = () => {
       </Head>
 
       <Main>
-        <Question question={currentQuestion} />
+        <Question
+          pollSlug={pollSlug}
+          question={currentQuestion}
+          pollMeta={pollMeta}
+        />
       </Main>
     </div>
   );

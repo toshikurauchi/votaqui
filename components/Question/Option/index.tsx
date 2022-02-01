@@ -6,6 +6,7 @@ import OptionImage from "./OptionImage";
 interface IOptionProps {
   option: IOption;
   index: number;
+  disabled?: boolean;
   selectedOptionIdx: number;
   setSelectedOptionIdx: React.Dispatch<React.SetStateAction<number>>;
 }
@@ -13,6 +14,7 @@ interface IOptionProps {
 export default function Option({
   option,
   index,
+  disabled,
   selectedOptionIdx,
   setSelectedOptionIdx,
 }: IOptionProps) {
@@ -23,7 +25,7 @@ export default function Option({
   }, [index, selectedOptionIdx, setSelectedOptionIdx]);
 
   return (
-    <button onClick={handleClick}>
+    <button onClick={handleClick} disabled={disabled}>
       <style jsx>{`
         button {
           padding: ${index === selectedOptionIdx ? "0.5rem" : "1rem"};
@@ -37,9 +39,11 @@ export default function Option({
           cursor: pointer;
           outline: none;
         }
-        button:hover {
+        button:disabled {
+          cursor: default;
+        }
+        button:hover:enabled {
           box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.2);
-          color: #fff;
         }
 
         .label {
