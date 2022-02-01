@@ -86,6 +86,9 @@ export default function Question({
           font-size: 1.5rem;
           font-weight: 200;
         }
+        p.info {
+          font-weight: bold;
+        }
 
         .optionsContainer {
           display: grid;
@@ -188,16 +191,16 @@ export default function Question({
       </button>
 
       {!pollMeta?.acceptingVotes && (
-        <p>A votação está encerrada. Por favor, aguarde o resultado.</p>
+        <p className="info">
+          A votação está encerrada. Por favor, aguarde o resultado.
+        </p>
       )}
       {submitted && !!pollMeta?.acceptingVotes && (
-        <>
-          <p>
-            Você já enviou seu voto. Por favor, aguarde o resultado.
-            <br />
-            Se quiser mudar seu voto, recarregue a página.
-          </p>
-        </>
+        <p className="info">
+          Você já enviou seu voto. Por favor, aguarde o resultado.
+          <br />
+          Se quiser votar em outra opção, recarregue a página.
+        </p>
       )}
     </div>
   );
