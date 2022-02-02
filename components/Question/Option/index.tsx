@@ -28,6 +28,8 @@ export default function Option({
     <button onClick={handleClick} disabled={disabled}>
       <style jsx>{`
         button {
+          min-width: 100%;
+          min-height: 30vh;
           padding: ${index === selectedOptionIdx ? "0.5rem" : "1rem"};
           background-color: white;
           border: ${index === selectedOptionIdx
@@ -35,7 +37,7 @@ export default function Option({
             : "0 solid var(--primary-color)"};
           border-radius: 0.5rem;
           box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-          transition: all 0.3s ease 0s;
+          transition: all 0.1s ease 0s;
           cursor: pointer;
           outline: none;
         }

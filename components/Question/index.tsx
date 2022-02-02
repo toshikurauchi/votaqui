@@ -91,6 +91,7 @@ export default function Question({
         }
 
         .optionsContainer {
+          width: 100%;
           display: grid;
           grid-template-columns: 1fr;
           gap: 1rem;
@@ -105,7 +106,7 @@ export default function Question({
           border: none;
           border-radius: 0.2rem;
           box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-          transition: box-shadow 0.3s ease 0s;
+          transition: box-shadow 0.1s ease 0s;
         }
         .voteButton:disabled {
           background-color: #d3d3d3;
@@ -126,6 +127,12 @@ export default function Question({
 
           p {
             font-size: 1.5rem;
+          }
+          p.question {
+            margin-bottom: 2rem;
+          }
+          p.info {
+            margin-top: -1rem;
           }
 
           .optionsContainer {
@@ -153,6 +160,12 @@ export default function Question({
           p {
             font-size: 2.5rem;
           }
+          p.question {
+            margin-bottom: 4rem;
+          }
+          p.info {
+            margin-top: -2rem;
+          }
 
           .optionsContainer {
             gap: 2rem;
@@ -167,7 +180,20 @@ export default function Question({
       `}</style>
 
       {question.title && <h1>{question.title}</h1>}
-      {question.question && <p>{question.question}</p>}
+      {question.question && <p className="question">{question.question}</p>}
+
+      {!pollMeta?.acceptingVotes && (
+        <p className="info">
+          A votação está encerrada. Por favor, aguarde o resultado.
+        </p>
+      )}
+      {submitted && !!pollMeta?.acceptingVotes && (
+        <p className="info">
+          Já recebemos seu voto! Por favor, aguarde o resultado.
+          <br />
+          Se quiser votar em outra opção, recarregue a página.
+        </p>
+      )}
 
       <div className="optionsContainer">
         {question.options.map((option, index) => (
@@ -189,19 +215,6 @@ export default function Question({
       >
         Votar
       </button>
-
-      {!pollMeta?.acceptingVotes && (
-        <p className="info">
-          A votação está encerrada. Por favor, aguarde o resultado.
-        </p>
-      )}
-      {submitted && !!pollMeta?.acceptingVotes && (
-        <p className="info">
-          Você já enviou seu voto. Por favor, aguarde o resultado.
-          <br />
-          Se quiser votar em outra opção, recarregue a página.
-        </p>
-      )}
     </div>
   );
 }

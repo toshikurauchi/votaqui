@@ -1,4 +1,4 @@
-/* eslint-disable @next/next/no-img-element */
+import Image from "next/image";
 import React, { HTMLProps, useEffect, useRef, useState } from "react";
 import { IOption } from "../../../../models/poll";
 import { getStorageUrl } from "../../../../services/storage";
@@ -31,13 +31,16 @@ export default function OptionImage({ alt, option }: IOptionImageProps) {
 
   if (!option?.image || !src) return null;
   return (
-    <>
+    <div className="imgContainer">
       <style jsx>{`
-        img {
-          max-width: 100%;
+        .imgContainer {
+          position: relative;
+          width: 100%;
+          // Aspect-ratio trick: https://css-tricks.com/aspect-ratio-boxes/
+          padding-top: 50%;
         }
       `}</style>
-      <img alt={alt} src={src}></img>
-    </>
+      <Image alt={alt} src={src} layout="fill" objectFit="contain" />
+    </div>
   );
 }
