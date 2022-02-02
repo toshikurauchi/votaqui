@@ -1,40 +1,41 @@
-import { useRouter } from "next/router";
 import React, { useCallback, useRef, useState } from "react";
 import breakpoints from "../../commons/breakpoints";
-import { pollExists } from "../../hooks/poll";
 import BigButton from "../BigButton";
 import BigInput from "../BigInput";
 
-export default function SlugInput() {
-  const router = useRouter();
+interface ISignInProps {
+  createUsername: (username: string) => void;
+}
+
+export default function SignIn({ createUsername }: ISignInProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [errorMsg, setErrorMsg] = useState<string>("");
 
-  const goToPoll = useCallback(() => {
-    const pollSlug = inputRef?.current?.value || "";
+  const validateAndSetUsername = useCallback(() => {
+    const username = inputRef?.current?.value || "";
 
-    const msg = `A votação "${pollSlug}" não existe`;
-    if (!pollSlug) {
-      setErrorMsg(msg);
+    if (!username) {
+      setErrorMsg("O nome de usuário não pode ser vazio");
+      return;
+    } else if (username.match(/^\d/)) {
+      setErrorMsg("O nome de usuário não pode iniciar com um número");
+      return;
+    } else if (username.match(/[^a-z0-9]/)) {
+      setErrorMsg("O nome de usuário deve conter apenas letras e números");
       return;
     }
-    pollExists(pollSlug).then((exists) => {
-      if (exists) {
-        router.push(`/${pollSlug}`);
-      } else {
-        setErrorMsg(msg);
-      }
-    });
-  }, [router]);
+    setErrorMsg("");
+    createUsername(username);
+  }, [createUsername]);
 
   const handleKeyPress = useCallback(
     (event) => {
       if (event.key === "Enter") {
-        goToPoll();
+        validateAndSetUsername();
       }
     },
-    [goToPoll]
+    [validateAndSetUsername]
   );
 
   const handleInputChange = useCallback(() => setErrorMsg(""), []);
@@ -45,36 +46,33 @@ export default function SlugInput() {
         .container {
           width: 100%;
           height: 100vh;
-          padding: 2rem;
           display: flex;
           flex-direction: column;
           justify-content: center;
           align-items: center;
         }
 
-        h1 {
-          color: var(--primary-color);
-          margin-top: -6rem;
-          margin-bottom: 4rem;
-          font-size: 4rem;
+        label {
+          font-size: 1rem;
+          margin-bottom: 0.5rem;
         }
 
         @media (min-width: ${breakpoints.size.md}) {
-          h1 {
-            font-size: 6rem;
+          label {
+            font-size: 2rem;
+            margin-bottom: 1rem;
           }
         }
       `}</style>
-      <h1>VotAqui</h1>
+      <label>Escolha o nome de usuário</label>
       <BigInput
         ref={inputRef}
         type="text"
-        placeholder="ID da votação"
-        onKeyPress={handleKeyPress}
         onChange={handleInputChange}
+        onKeyPress={handleKeyPress}
         errorMsg={errorMsg}
       />
-      <BigButton onClick={goToPoll}>Entrar</BigButton>
+      <BigButton>Entrar</BigButton>
     </div>
   );
 }

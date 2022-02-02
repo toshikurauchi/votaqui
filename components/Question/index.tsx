@@ -4,18 +4,23 @@ import "react-toastify/dist/ReactToastify.min.css";
 import breakpoints from "../../commons/breakpoints";
 import { submitVote } from "../../hooks/poll";
 import { IPollMeta, IQuestion } from "../../models/poll";
+import UserMenu from "../UserMenu";
 import Option from "./Option";
 
 interface IQuestionProps {
   pollSlug: string;
   question?: IQuestion | null;
   pollMeta: IPollMeta | null;
+  username: string;
+  logout?: () => {};
 }
 
 export default function Question({
   pollSlug,
   question,
   pollMeta,
+  username,
+  logout,
 }: IQuestionProps) {
   const [selectedOptionIdx, setSelectedOptionIdx] = useState<number>(-1);
   const [submitted, setSubmitted] = useState<boolean>(false);
@@ -30,7 +35,7 @@ export default function Question({
     setLoading(true);
 
     toast
-      .promise(submitVote(pollSlug, "andrewtnk", selectedOptionIdx), {
+      .promise(submitVote(pollSlug, username, selectedOptionIdx), {
         pending: "Enviando seu voto...",
         success: "Voto enviado!",
         error:
@@ -50,7 +55,7 @@ export default function Question({
           toast.dismiss();
         }, 1000);
       });
-  }, [pollSlug, selectedOptionIdx]);
+  }, [pollSlug, selectedOptionIdx, username]);
 
   const votingDisabled = loading || submitted || !pollMeta?.acceptingVotes;
 
@@ -65,6 +70,7 @@ export default function Question({
       />
       <style jsx>{`
         .container {
+          position: relative;
           margin: 2rem;
           display: flex;
           flex-direction: column;
@@ -178,6 +184,8 @@ export default function Question({
           }
         }
       `}</style>
+
+      <UserMenu username={username} logout={logout} />
 
       {question.title && <h1>{question.title}</h1>}
       {question.question && <p className="question">{question.question}</p>}

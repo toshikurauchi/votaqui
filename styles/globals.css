@@ -13,7 +13,9 @@ a {
 
 :root {
   --primary-color: #083763;
+  --primary-color-light: #206ab0;
   --secondary-color: #b06d00;
+  --secondary-color-dark: #634108;
   --blackish: #3c3c3c;
   --error-color: #d33d3d;
 }
