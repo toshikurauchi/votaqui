@@ -1,4 +1,4 @@
-import { off, onValue, ref as databaseRef, set } from "firebase/database";
+import { get, off, onValue, ref as databaseRef, set } from "firebase/database";
 import { useEffect, useState } from "react";
 import { IPollMeta, IQuestion } from "../models/poll";
 import { database } from "../services/firebase-client";
@@ -49,4 +49,11 @@ const submitVote = (pollSlug: string, username: string, optionIdx: number) => {
   return set(ref, optionIdx);
 };
 
-export { useCurrentQuestion, submitVote };
+const pollExists = (pollSlug: string) => {
+  const ref = databaseRef(database, `/polls/${pollSlug}`);
+  return get(ref)
+    .then((snapshot) => snapshot.exists())
+    .catch(() => false);
+};
+
+export { useCurrentQuestion, submitVote, pollExists };
