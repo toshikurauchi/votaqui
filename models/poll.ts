@@ -9,6 +9,10 @@ export interface IQuestion {
   question?: string;
 }
 
+export interface IResult {
+  [username: string]: number;
+}
+
 export interface IPollMeta {
   currentQuestion: number;
   acceptingVotes: boolean;

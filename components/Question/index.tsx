@@ -12,7 +12,7 @@ interface IQuestionProps {
   question?: IQuestion | null;
   pollMeta: IPollMeta | null;
   username: string;
-  logout?: () => {};
+  logout?: () => void;
 }
 
 export default function Question({

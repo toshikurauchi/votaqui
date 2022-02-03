@@ -1,33 +1,21 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
 import Main from "../../components/Main";
 import Question from "../../components/Question";
 import SignIn from "../../components/SignIn";
 import { useCurrentQuestion } from "../../hooks/poll";
+import useLocalStorage from "../../hooks/useLocalStorage";
 
-const LOCALSTORAGE_USERNAME_KEY = "votaqui--username";
-
-const Home: NextPage = () => {
+const PollPage: NextPage = () => {
   const router = useRouter();
   const { slug: pollSlug } = router.query;
   const [currentQuestion, pollMeta] = useCurrentQuestion(pollSlug as string);
-  const [username, setUsername] = useState<string | null>();
-
-  useEffect(() => {
-    setUsername(localStorage.getItem(LOCALSTORAGE_USERNAME_KEY));
-  }, []);
-
-  const createUsername = useCallback((username) => {
-    localStorage.setItem(LOCALSTORAGE_USERNAME_KEY, username);
-    setUsername(username);
-  }, []);
-
-  const logout = useCallback(() => {
-    localStorage.removeItem(LOCALSTORAGE_USERNAME_KEY);
-    setUsername(null);
-  }, []);
+  const {
+    value: username,
+    setValue: createUsername,
+    removeValue: logout,
+  } = useLocalStorage("votaqui--username");
 
   return (
     <div>
@@ -53,4 +41,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default PollPage;
