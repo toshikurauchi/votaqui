@@ -28,20 +28,21 @@ export default function PollControl({ meta, questions }: IPollControlProps) {
       <style jsx>{`
         .container {
           display: flex;
-          gap: 2rem;
-          padding: 1rem;
-          border: 1px solid var(--blackish);
+          flex-direction: column;
+          gap: 1rem;
           border-radius: 0.2rem;
+        }
+
+        h2 {
+          color: var(--primary-color);
+          margin: 1rem 0 0;
+          font-size: 2rem;
+          font-weight: 200;
         }
 
         .control {
           display: flex;
           flex-direction: column;
-          margin-bottom: 1rem;
-        }
-
-        .control.grow {
-          flex-grow: 1;
         }
 
         .control label {
@@ -54,6 +55,8 @@ export default function PollControl({ meta, questions }: IPollControlProps) {
         }
       `}</style>
 
+      <h2>Controle</h2>
+
       <div className="control">
         <label>Aceita respostas:</label>
         <ToggleInput
@@ -62,7 +65,7 @@ export default function PollControl({ meta, questions }: IPollControlProps) {
         />
       </div>
 
-      <div className="control grow">
+      <div className="control">
         <label>Questão atual:</label>
         <select
           onChange={handleSetCurrentQuestion}

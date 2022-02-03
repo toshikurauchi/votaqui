@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import useResult from "../../hooks/useResult";
 import { IResult } from "../../models/poll";
 import BarChart from "../DoughnutChart";
 
@@ -11,29 +12,36 @@ export default function ResultVisualization({
   totalOptions,
   votes,
 }: IResultVisualizationProps) {
-  const [result, setResult] = useState<number[]>([]);
-  useEffect(() => {
-    const tempResults: number[] = [];
-    for (let i = 0; i < totalOptions; i++) {
-      tempResults.push(0);
-    }
-
-    if (votes) {
-      Object.values(votes).forEach((choice) => tempResults[choice]++);
-    }
-
-    setResult(tempResults);
-  }, [totalOptions, votes]);
+  const result = useResult(totalOptions, votes);
 
   return (
     <div className="container">
       <style jsx>{`
         .container {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          align-items: center;
+          padding: 1rem;
+        }
+
+        .chartContainer {
+          display: flex;
+          width: 100%;
           max-width: min(100%, 30rem);
-          padding: 2rem;
+        }
+
+        h2 {
+          color: var(--primary-color);
+          font-size: 2rem;
+          font-weight: 200;
+          margin-bottom: 1rem;
         }
       `}</style>
-      <BarChart data={result} />
+      <h2>Votos</h2>
+      <div className="chartContainer">
+        <BarChart data={result} />
+      </div>
     </div>
   );
 }
