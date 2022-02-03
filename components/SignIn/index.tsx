@@ -21,7 +21,7 @@ export default function SignIn({ createUsername }: ISignInProps) {
     } else if (username.match(/^\d/)) {
       setErrorMsg("O nome de usuário não pode iniciar com um número");
       return;
-    } else if (username.match(/[^a-z0-9]/)) {
+    } else if (username.match(/[^A-Za-z0-9]/)) {
       setErrorMsg("O nome de usuário deve conter apenas letras e números");
       return;
     }
