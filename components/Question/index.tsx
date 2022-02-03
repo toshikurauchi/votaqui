@@ -96,6 +96,9 @@ export default function Question({
           font-size: 1.5rem;
           font-weight: 200;
         }
+        p.question {
+          margin-top: 3rem;
+        }
         p.info {
           font-weight: bold;
         }
@@ -164,7 +167,7 @@ export default function Question({
 
           h1 {
             font-size: 4rem;
-            margin: 2rem 0 1rem;
+            margin: 0 0 1rem;
           }
 
           p {

@@ -36,8 +36,10 @@ interface IChartProps {
 
 export default function BarChart({ data }: IChartProps) {
   const options = {
+    hoverOffset: 10,
     plugins: {
       legend: {
+        position: "bottom",
         labels: {
           font: {
             size: 32,
@@ -46,5 +48,5 @@ export default function BarChart({ data }: IChartProps) {
       },
     },
   };
-  return <Doughnut data={parseData(data)} options={options} />;
+  return <Doughnut data={parseData(data)} options={options as any} />;
 }

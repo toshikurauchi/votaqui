@@ -50,6 +50,7 @@ export default function SignIn({ createUsername }: ISignInProps) {
           flex-direction: column;
           justify-content: center;
           align-items: center;
+          padding: 2rem;
         }
 
         label {
@@ -72,7 +73,7 @@ export default function SignIn({ createUsername }: ISignInProps) {
         onKeyPress={handleKeyPress}
         errorMsg={errorMsg}
       />
-      <BigButton>Entrar</BigButton>
+      <BigButton onClick={validateAndSetUsername}>Entrar</BigButton>
     </div>
   );
 }

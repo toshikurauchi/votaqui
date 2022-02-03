@@ -54,11 +54,11 @@ export default function PollAdmin() {
 
       <div className="contentContainer">
         <div>
+          <QuestionView question={currentQuestion} />
           <div className="controls">
             {meta && <PollControl meta={meta} questions={questions} />}
             <ResultStatistics votes={votes} totalOptions={totalOptions} />
           </div>
-          <QuestionView question={currentQuestion} />
         </div>
         <ResultVisualization votes={votes} totalOptions={totalOptions} />
       </div>

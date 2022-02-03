@@ -13,6 +13,7 @@ export default forwardRef(function BigInput(
     <>
       <style jsx>{`
         input {
+          max-width: 100%;
           font-size: 1.5rem;
           padding: 0.5rem 1.5rem;
           border-radius: 999999px;
