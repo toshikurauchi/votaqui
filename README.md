@@ -1,4 +1,4 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# VotAqui
 
 ## Getting Started
 
@@ -12,23 +12,55 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+### Firebase project
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+You must create a project on firebase. The free account should be enough for most purposes.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+### Setup environment variables
 
-## Learn More
+Create a file `.env.local` with the following content (replacing the values by the ones in your project):
 
-To learn more about Next.js, take a look at the following resources:
+```
+NEXT_PUBLIC_FIREBASE_API_KEY=YOUR_API_KEY_HERE
+NEXT_PUBLIC_AUTH_DOMAIN=your-app-url-here.firebaseapp.com
+NEXT_PUBLIC_DATABASE_URL=https://your-app-default-rtdb.firebaseio.com
+NEXT_PUBLIC_PROJECT_ID=your-firebase-project-id
+NEXT_PUBLIC_STORAGE_BUCKET=your-app-url.appspot.com
+NEXT_PUBLIC_MESSAGING_SENDER_ID=messaging-id-here
+NEXT_PUBLIC_APP_ID=app-id-here
+NEXT_PUBLIC_MEASUREMENT_ID=G-YOUR_MEASUREMENT_ID
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Initial data
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+The poll is created directly on Firebase. Your realtime database must follow the structure below (names in uppercase mean you can define whatever value you want):
 
-## Deploy on Vercel
+```
+your-app-default-rtdb
+|- polls
+    |- YOUR_POLL_SLUG
+        |- meta
+            |- acceptingVotes: true
+            |- currentQuestion: 0
+        |- questions
+            |- 0
+                |- options
+                    |- 0
+                        |- image: OPTIONAL_IMAGE_RELATIVE_PATH_FROM_FIREBASE_STORAGE
+                        |- text: OPTIONAL_OPTION_TEXT
+                    |- 1
+                        |- image: OPTIONAL_IMAGE_RELATIVE_PATH_FROM_FIREBASE_STORAGE
+                        |- text: OPTIONAL_OPTION_TEXT
+                |- question: QUESTION_TEXT
+                |- title: OPTIONAL_QUESTION_TITLE
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+If you want to use images, add them to your Firebase Storage and add the path here (e.g. `/dcu/1A.png`).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Anywhere in the dataset where the key is a number means that it is an array. You can add how many other options you want following the same structure.
+
+IMPORTANT: I haven't tested it with the titles and texts yet (only images), so the layout may be broken. Sorry...
+
+## Deploy
+
+You can deploy this project on Vercel (or anywhere else, given that you can run Next.js there).
