@@ -12,9 +12,10 @@ export default function PollAdmin() {
   const { slug } = router.query;
 
   const meta = usePollMeta(slug as string);
-  const votes = useVotes(slug as string);
+  const currentQuestionIdx = meta?.currentQuestion || 0;
+  const votes = useVotes(slug as string, currentQuestionIdx);
   const questions = useQuestions(slug as string);
-  const currentQuestion = questions[meta?.currentQuestion || 0];
+  const currentQuestion = questions[currentQuestionIdx];
   const totalOptions = currentQuestion?.options?.length || 0;
 
   if (!totalOptions) return null;

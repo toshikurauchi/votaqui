@@ -25,6 +25,7 @@ export default function Question({
   const [selectedOptionIdx, setSelectedOptionIdx] = useState<number>(-1);
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const questionIdx = pollMeta?.currentQuestion;
 
   useEffect(() => {
     setSelectedOptionIdx(-1);
@@ -35,12 +36,15 @@ export default function Question({
     setLoading(true);
 
     toast
-      .promise(submitVote(pollSlug, username, selectedOptionIdx), {
-        pending: "Enviando seu voto...",
-        success: "Voto enviado!",
-        error:
-          "Ocorreu um erro ao enviar seu voto! Por favor, tente novamente.",
-      })
+      .promise(
+        submitVote(pollSlug, questionIdx || 0, username, selectedOptionIdx),
+        {
+          pending: "Enviando seu voto...",
+          success: "Voto enviado!",
+          error:
+            "Ocorreu um erro ao enviar seu voto! Por favor, tente novamente.",
+        }
+      )
       .then(() => {
         setSubmitted(true);
       })

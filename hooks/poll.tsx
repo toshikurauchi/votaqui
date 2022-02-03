@@ -61,8 +61,8 @@ export const useQuestions = (pollSlug: string) => {
   return useSnapshot<IQuestion[]>(`/polls/${pollSlug}/questions`, []);
 };
 
-export const useVotes = (pollSlug: string) => {
-  return useSnapshot<IResult | null>(`/votes/${pollSlug}`, null);
+export const useVotes = (pollSlug: string, questionIdx: number) => {
+  return useSnapshot<IResult | null>(`/votes/${pollSlug}/${questionIdx}`, null);
 };
 
 export const useCurrentQuestion = (
@@ -88,10 +88,14 @@ export const useCurrentQuestion = (
 
 export const submitVote = (
   pollSlug: string,
+  questionIdx: number,
   username: string,
   optionIdx: number
 ) => {
-  const ref = databaseRef(database, `/votes/${pollSlug}/${username}`);
+  const ref = databaseRef(
+    database,
+    `/votes/${pollSlug}/${questionIdx}/${username}`
+  );
   return set(ref, optionIdx);
 };
 
