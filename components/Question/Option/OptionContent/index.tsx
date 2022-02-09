@@ -13,6 +13,15 @@ export default function OptionContent({ option, index }: IOptionContentProps) {
   return (
     <>
       <style jsx>{`
+        p {
+          text-align: center;
+          max-width: 50ch;
+          color: var(--primary-color);
+          margin: 1rem 0;
+          font-size: 1.5rem;
+          font-weight: 200;
+        }
+
         .label {
           display: block;
           color: var(--primary-color);
@@ -38,6 +47,7 @@ export default function OptionContent({ option, index }: IOptionContentProps) {
       {option.image && (
         <OptionImage alt={`Opção ${index + 1}`} option={option} />
       )}
+      {option.text && <p>{option.text}</p>}
       <span className="label">{letter}</span>
     </>
   );

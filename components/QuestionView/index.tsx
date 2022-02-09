@@ -83,7 +83,12 @@ export default function QuestionView({ question }: IQuestionViewProps) {
       `}</style>
 
       {question.title && <h1>{question.title}</h1>}
-      {question.question && <p className="question">{question.question}</p>}
+      {question.question && (
+        <p
+          className="question"
+          dangerouslySetInnerHTML={{ __html: question.question }}
+        />
+      )}
 
       <div className="optionsContainer">
         {question.options.map((option, index) => (

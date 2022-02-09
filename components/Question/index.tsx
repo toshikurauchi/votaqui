@@ -195,7 +195,12 @@ export default function Question({
       <UserMenu username={username} logout={logout} />
 
       {question.title && <h1>{question.title}</h1>}
-      {question.question && <p className="question">{question.question}</p>}
+      {question.question && (
+        <p
+          className="question"
+          dangerouslySetInnerHTML={{ __html: question.question }}
+        />
+      )}
 
       {!pollMeta?.acceptingVotes && (
         <p className="info">
